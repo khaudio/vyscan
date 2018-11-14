@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from concurrent.futures import ThreadPoolExecutor
 from collections import deque
 from subprocess import Popen, PIPE, STDOUT
 import sys
@@ -10,6 +11,8 @@ A simple script that upgrades, updates, and runs a clamav scan recursively
 on a directory.
 """
 
+# TODO:
+    # async upgrade and update operations; maybe with ThreadPoolExecutor or curio TaskGroup
 
 def run_subprocess(command, dir=''):
     """Runs a subprocess and returns stdout and stderr as lists split by line"""
@@ -67,7 +70,6 @@ def parse(scanned):
 
 
 if __name__ == '__main__':
-    directory = sys.argv[-1]
     upgrade()
     update()
-    parse(scan(directory))
+    parse(scan(sys.argv[-1]))
